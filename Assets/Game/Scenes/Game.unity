@@ -471,10 +471,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas - HUD
       objectReference: {fileID: 0}
-    - target: {fileID: 9005575190452874941, guid: 418dfe9b8e5325549b74f36d9860d8e0, type: 3}
-      propertyPath: relay_network_manager
-      value: 
-      objectReference: {fileID: 1587093418}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -868,17 +864,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1757901910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1587093418 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3051063409544214082, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-  m_PrefabInstance: {fileID: 6041203239326691043}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0557b400c93526d45ae0e9bcf8bfc1b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CustomNetworkManager
 --- !u!1 &1757901909
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,63 +897,6 @@ Transform:
   - {fileID: 1390988613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &6041203239326691043
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 912929066493456870, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6054141202352694051, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
-      propertyPath: m_Name
-      value: Network Manager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 936830e875a34874eacd117232e6d8f8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -977,7 +905,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 264302318}
-  - {fileID: 6041203239326691043}
   - {fileID: 384853117}
   - {fileID: 1298739137}
   - {fileID: 1090946763}

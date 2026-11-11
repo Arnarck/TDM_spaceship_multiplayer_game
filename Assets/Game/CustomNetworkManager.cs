@@ -11,24 +11,13 @@ public class CustomNetworkManager : RelayNetworkManager
         // All players connected
         if (NetworkServer.connections.Count == 2)
         {
-            for (int i = 0; i < NetworkServer.connections.Count; i++)
-            {
-                PlayerController_Network player = NetworkServer.connections[i].identity.GetComponent<PlayerController_Network>();
-
-                // Connection ID
-                player.connection_id = player.connectionToClient.connectionId;
-
-                // Spawn projectiles
-                for (int j = 0; j < 30; j++)
-                {
-                    GameObject go = Instantiate(player.projectile_prefab);
-                    go.GetComponent<Projectile_Network>().connection_id = player.connectionToClient.connectionId;
-
-                    NetworkServer.Spawn(go, player.connectionToClient);
-                }
-            }
-
-            GI.game_mode.start_game();
+            GI.game_mode.add_connection_id_t = 1f;
+            GI.game_mode.init_projectile_pool_t = 2f;
         }
+    }
+
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        GI.game_mode.load_main_menu();
     }
 }

@@ -46,6 +46,16 @@ public class PlayerController_Network : NetworkBehaviour
         {
             enemy_lives_hud.SetActive(false);
             GI.local_player = this;
+
+            if (isServer)
+            {
+                GI.local_player_hud.join_panel.SetActive(true);
+                GI.local_player_hud.join_code_text.text = FindAnyObjectByType<CustomNetworkManager>().relayJoinCode;
+            }
+            else
+            {
+                GI.local_player_hud.connecting_panel.SetActive(true);
+            }
         }
         else
         {
@@ -58,6 +68,18 @@ public class PlayerController_Network : NetworkBehaviour
         float dt = Time.deltaTime;
 
         if (freeze_player) { return; }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isLocalPlayer)
+        {
+            if (isServer)
+            {
+                NetworkServer.Shutdown();
+            }
+            else
+            {
+                NetworkClient.Disconnect();
+            }
+        }
         
         { // Movement
             ddp = Vector3.zero;
@@ -168,8 +190,22 @@ public class PlayerController_Network : NetworkBehaviour
     {
         if (free_projectiles.Count < 1)
         {
-            Debug.Assert(false, "No more projectiles available in the pool!");
-            return null;
+            //@BUG: Sometimes the free_projectiles pool isn't filled when the projectile calls 'destroy_projectile'. This is a workaround
+            Transform projectiles_parent = GI.game_mode.projectiles_parent[connection_id];
+            for (int i = 0; i < projectiles_parent.childCount; i++)
+            {
+                GameObject projectile = projectiles_parent.GetChild(0).gameObject;
+                if (!projectile.activeInHierarchy)
+                {
+                    destroy_projectile(projectile);
+                }
+            }
+
+            if (free_projectiles.Count < 1)
+            {
+                Debug.Assert(false, "No more projectiles available in the pool!");
+                return null;
+            }
         }
 
         GameObject go = free_projectiles[free_projectiles.Count - 1];
@@ -339,7 +375,6 @@ public class PlayerController_Network : NetworkBehaviour
     public void rpc_shoot_projectile()
     {
         fire_t += fire_time;
-        Debug.Log("Firing");
     }
 
     [Command]

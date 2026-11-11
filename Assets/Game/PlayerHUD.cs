@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using Utp;
 using TMPro;
@@ -14,8 +15,10 @@ public class PlayerHUD : MonoBehaviour
 
     [Header("Relay")]
     public GameObject relay_panel;
-    public TMP_InputField input_field;
-    public RelayNetworkManager relay_network_manager;
+    public GameObject join_panel;
+    public GameObject connecting_panel;
+    public TextMeshProUGUI join_code_text;
+    public TextMeshProUGUI copy_join_code_text;
 
     [Header("INTERNAL")]
     public float go_message_t;
@@ -25,20 +28,6 @@ public class PlayerHUD : MonoBehaviour
     private void Awake()
     {
         GI.local_player_hud = this;
-    }
-
-    private async void Start()
-    {
-        try
-        {
-            await UnityServices.InitializeAsync();
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e);
-        }
     }
 
     private void Update()
@@ -76,19 +65,10 @@ public class PlayerHUD : MonoBehaviour
 
     // ===================== RELAY =====================
 
-    public void host()
+    public void copy_join_code_to_clipboard()
     {
-        relay_network_manager.StartRelayHost(2);
-    }
-
-    public void join_game()
-    {
-        relay_network_manager.JoinRelayServer();
-    }
-
-    public void get_join_code()
-    {
-        relay_network_manager.relayJoinCode = input_field.text;
+        GUIUtility.systemCopyBuffer = join_code_text.text;
+        copy_join_code_text.text = "Copied!";
     }
 
 

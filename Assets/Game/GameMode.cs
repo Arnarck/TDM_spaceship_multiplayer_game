@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Mirror;
 using System.Collections.Generic;
 
@@ -10,8 +11,9 @@ public class GameMode : NetworkBehaviour
 
     [Header("INTERNAL")]
     public float start_match_t;
-    public float start_game_t;
+    public float init_projectile_pool_t;
     public float game_over_t;
+    public float add_connection_id_t;
 
     void Awake()
     {
@@ -23,6 +25,42 @@ public class GameMode : NetworkBehaviour
         float dt = Time.deltaTime;
 
         if (!isServer) { return; }
+
+        if (add_connection_id_t > 0f)
+        {
+            add_connection_id_t -= dt;
+            if (add_connection_id_t <= 0f)
+            {
+                for (int i = 0; i < NetworkServer.connections.Count; i++)
+                {
+                    PlayerController_Network player = NetworkServer.connections[i].identity.GetComponent<PlayerController_Network>();
+                    player.connection_id = player.connectionToClient.connectionId;
+                }
+            }
+        }
+
+        if (init_projectile_pool_t > 0f)
+        {
+            init_projectile_pool_t -= dt;
+            if (init_projectile_pool_t <= 0f)
+            {
+                for (int i = 0; i < NetworkServer.connections.Count; i++)
+                {
+                    PlayerController_Network player = NetworkServer.connections[i].identity.GetComponent<PlayerController_Network>();
+
+                    // Spawn projectiles for each player
+                    for (int j = 0; j < 30; j++)
+                    {
+                        GameObject go = Instantiate(player.projectile_prefab);
+                        go.GetComponent<Projectile_Network>().connection_id = player.connectionToClient.connectionId;
+
+                        NetworkServer.Spawn(go, player.connectionToClient);
+                    }
+                }
+
+                start_game();
+            }
+        }
 
         if (start_match_t > 0f)
         {
@@ -46,6 +84,11 @@ public class GameMode : NetworkBehaviour
                 }
             }
         }
+    }
+
+    public void load_main_menu()
+    {
+        SceneManager.LoadScene(1);
     }
 
     [Server]
