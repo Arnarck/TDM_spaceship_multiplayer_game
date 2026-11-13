@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 2357068665604795794}
   - component: {fileID: 6269478398108937175}
   m_Layer: 0
-  m_Name: Naves
+  m_Name: Nave_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
