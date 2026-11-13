@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerVFX : MonoBehaviour
 {
     public Animator animator;
-    public ParticleSystem particle_damage;
+    public ParticleSystem particle_damage, particle_die;
     
 
     public void take_damage()
@@ -23,5 +23,9 @@ public class PlayerVFX : MonoBehaviour
     public void shoot()
     {
         animator.SetTrigger("Shoot");
+    }
+    public void Die()
+    {
+        particle_die.Play();
     }
 }
