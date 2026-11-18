@@ -28,6 +28,13 @@ public class PlayerController_Network : NetworkBehaviour
     public List<GameObject> free_projectiles;
     public List<GameObject> living_projectiles;
 
+    // Clamp position w/ screen bounds
+    // pause (resume/quit)
+    // show player wins number
+    // add art
+    // add sfx and music
+    // fix lives HUD bug
+
     private void Awake()
     {
         GI.players_connected.Add(this);
@@ -67,19 +74,15 @@ public class PlayerController_Network : NetworkBehaviour
     {
         float dt = Time.deltaTime;
 
-        if (freeze_player) { return; }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isLocalPlayer)
-        {
-            if (isServer)
+        { // Lives HUD
+            if (!isLocalPlayer)
             {
-                NetworkServer.Shutdown();
-            }
-            else
-            {
-                NetworkClient.Disconnect();
+                enemy_lives_hud.transform.position = transform.position + Vector3.forward * 2f;
+                enemy_lives_hud.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
             }
         }
+
+        if (freeze_player) { return; }
         
         { // Movement
             ddp = Vector3.zero;
@@ -162,9 +165,6 @@ public class PlayerController_Network : NetworkBehaviour
                 }
             }
         }
-
-        enemy_lives_hud.transform.position = transform.position + Vector3.forward*2f;
-        enemy_lives_hud.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
 
