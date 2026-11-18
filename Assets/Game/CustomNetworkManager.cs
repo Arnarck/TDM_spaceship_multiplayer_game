@@ -18,6 +18,6 @@ public class CustomNetworkManager : RelayNetworkManager
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        GI.game_mode.load_main_menu();
+        GI.game_mode.disconnect_t = 0.5f;
     }
 }

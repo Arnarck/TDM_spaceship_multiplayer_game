@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,18 +14,32 @@ public class MainMenu : MonoBehaviour
     public GameObject main_menu;
     public GameObject join_game_menu;
     public Button join_game_button;
+    public bool load_multiplayer;
 
     private async void Start()
     {
-        try
+        GI.players_connected = new List<PlayerController_Network>();
+
+        if (load_multiplayer)
         {
-            await UnityServices.InitializeAsync();
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
+            try
+            {
+                await UnityServices.InitializeAsync();
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
-        catch (Exception e)
+        else
         {
-            Debug.LogError(e);
+            CustomNetworkManager network_manager = FindAnyObjectByType<CustomNetworkManager>();
+            if (network_manager)
+            {
+                Destroy(network_manager.gameObject);
+            }
         }
     }
 
@@ -31,6 +47,16 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void play()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void back_to_main_menu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void host_game()

@@ -16,6 +16,7 @@ public class GameMode : NetworkBehaviour
     public float init_projectile_pool_t;
     public float game_over_t;
     public float add_connection_id_t;
+    public float disconnect_t;
 
     void Awake()
     {
@@ -27,6 +28,16 @@ public class GameMode : NetworkBehaviour
         float dt = Time.deltaTime;
 
         if (!isServer) { return; }
+
+        if (disconnect_t > 0f)
+        {
+            disconnect_t -= dt;
+            if (disconnect_t <= 0f)
+            {
+                CustomNetworkManager.singleton.StopHost();
+                NetworkServer.Shutdown();
+            }
+        }
 
         if (add_connection_id_t > 0f)
         {
@@ -90,7 +101,7 @@ public class GameMode : NetworkBehaviour
 
     public void load_main_menu()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     [Server]

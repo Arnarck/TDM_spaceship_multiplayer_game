@@ -91,7 +91,16 @@ public class PlayerHUD : MonoBehaviour
 
     public void quit()
     {
-        NetworkClient.Disconnect();
+        if (GI.local_player.isServer)
+        {
+            CustomNetworkManager.singleton.StopHost();
+            NetworkServer.Shutdown();
+        }
+        else
+        {
+            CustomNetworkManager.singleton.StopClient();
+            NetworkClient.Disconnect();
+        }
     }
 
     public void update_wins(int player)

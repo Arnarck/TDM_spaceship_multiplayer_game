@@ -9,10 +9,4 @@ public static class GI
     public static Powerup_Network powerup;
     public static AudioPlayer audio_player;
     public static List<PlayerController_Network> players_connected;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-    public static void game_init()
-    {
-        players_connected = new List<PlayerController_Network>();
-    }
 }
