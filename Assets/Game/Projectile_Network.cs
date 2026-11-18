@@ -110,6 +110,7 @@ public class Projectile_Network : NetworkBehaviour
         if (collided)
         {
             GI.game_mode.hit_vfx.spawn(transform.position);
+            GI.audio_player.play(Audio_Type.PLAYER_HIT);
         }
     }
 

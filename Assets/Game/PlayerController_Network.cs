@@ -166,6 +166,7 @@ public class PlayerController_Network : NetworkBehaviour
             {
                 if (Input.GetMouseButton(0) && fire_t <= 0f)
                 {
+                    
                     cmd_maybe_shoot_projectile();
                 }
             }
@@ -404,6 +405,7 @@ public class PlayerController_Network : NetworkBehaviour
             player_art[connection_id].SetActive(false);
             death_vfx.Play();
             enemy_lives_hud.SetActive(false);
+            GI.audio_player.play(Audio_Type.PLAYER_DEATH);
         }
 
         if (isLocalPlayer) 
@@ -430,9 +432,7 @@ public class PlayerController_Network : NetworkBehaviour
                 rpc_spawn_projectile(muzzle_point.position, transform.rotation);
             }
 
-            
             fire_t += fire_time;
-
             rpc_shoot_projectile();
         }
     }
@@ -441,6 +441,7 @@ public class PlayerController_Network : NetworkBehaviour
     public void rpc_shoot_projectile()
     {
         fire_t += fire_time;
+        GI.audio_player.play(Audio_Type.PLAYER_SHOOTING);
     }
 
     [Command]

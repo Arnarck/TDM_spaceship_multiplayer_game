@@ -51,6 +51,8 @@ public class Powerup_Network : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        GI.audio_player.play(Audio_Type.POWERUP_COLLECTED);
+
         if (!isServer) { return; }
 
         if (other.CompareTag("Player") && activate_powerup_t <= 0f)
@@ -89,6 +91,7 @@ public class Powerup_Network : NetworkBehaviour
             {
                 powerups[i].gameObject.SetActive(true);
                 powerups[i].particle.Play();
+                GI.audio_player.play(Audio_Type.POWERUP_SPAWNED);
             }
             else
             {
