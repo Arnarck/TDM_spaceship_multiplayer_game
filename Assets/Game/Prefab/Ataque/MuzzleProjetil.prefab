@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 522619131810354883}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.32700014, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.327, z: 0}
+  m_LocalScale: {x: 0.51158476, y: 0.51158476, z: 0.51158476}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7139246236604772964}
@@ -42,7 +42,7 @@ ParticleSystem:
   m_GameObject: {fileID: 522619131810354883}
   serializedVersion: 8
   lengthInSec: 0.5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -4921,8 +4921,8 @@ Transform:
   m_GameObject: {fileID: 1591915339586569731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.32700014, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.327, z: 0}
+  m_LocalScale: {x: 0.51158476, y: 0.51158476, z: 0.51158476}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7139246236604772964}
@@ -4936,7 +4936,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1591915339586569731}
   serializedVersion: 8
   lengthInSec: 0.5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -5010,7 +5010,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
+      scalar: 0.75
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -9850,7 +9850,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.327, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.51158476, y: 0.51158476, z: 0.51158476}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7139246236604772964}
@@ -9864,7 +9864,7 @@ ParticleSystem:
   m_GameObject: {fileID: 8669150406666269713}
   serializedVersion: 8
   lengthInSec: 0.5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0

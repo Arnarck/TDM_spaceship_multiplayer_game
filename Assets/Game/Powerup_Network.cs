@@ -16,7 +16,7 @@ public enum Powerup_Type
 public class Powerup_Network : NetworkBehaviour
 {
     public Collider powerup_collider;
-    public GameObject powerup_mesh;
+    public PowerUpVFX[] powerups;
 
     [Header("INTERNAL")]
     public float activate_powerup_t;
@@ -83,14 +83,28 @@ public class Powerup_Network : NetworkBehaviour
     {
         current_powerup = type;
         transform.position = position;
+        for (int i = 0; i < powerups.Length; i++)
+        {
+            if (i == ((int)type - 1))
+            {
+                powerups[i].gameObject.SetActive(true);
+                powerups[i].particle.Play();
+            }
+            else
+            {
+                powerups[i].gameObject.SetActive(false);
+            }
+        }
 
         powerup_collider.enabled = true;
-        powerup_mesh.SetActive(true);
     }
 
     public void hide_powerup()
     {
         powerup_collider.enabled = false;
-        powerup_mesh.SetActive(false);
+        if (current_powerup != Powerup_Type.NONE)
+        {
+            powerups[((int)current_powerup - 1)].gameObject.SetActive(false);
+        }
     }
 }

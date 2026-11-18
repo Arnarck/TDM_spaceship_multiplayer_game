@@ -5,6 +5,7 @@ public class Projectile_Network : NetworkBehaviour
 {
     public float lifetime;
     public float move_speed;
+    public TrailRenderer trail;
 
     [Header("INTERNAL")]
     public PlayerController_Network player_owner;
@@ -34,7 +35,7 @@ public class Projectile_Network : NetworkBehaviour
         }
 
         transform.SetParent(GI.game_mode.projectiles_parent[connection_id]);
-        destroy();
+        destroy(false);
     }
 
     // Update is called once per frame
@@ -80,7 +81,7 @@ public class Projectile_Network : NetworkBehaviour
             lifetime_t -= dt;
             if (lifetime_t <= 0f && isServer)
             {
-                server_destroy();
+                server_destroy(false);
             }
         }
     }
@@ -95,15 +96,21 @@ public class Projectile_Network : NetworkBehaviour
             if (player_owner != player)
             {
                 player.server_lose_life();
-                server_destroy();
+                server_destroy(true);
             }
         }
     }
-
-    public void destroy()
+    
+    public void destroy(bool collided)
     {
         gameObject.SetActive(false);
         player_owner.destroy_projectile(gameObject);
+        trail.Clear();
+
+        if (collided)
+        {
+            GI.game_mode.hit_vfx.spawn(transform.position);
+        }
     }
 
     public void on_connection_id_changed(int old_value, int new_value)
@@ -112,8 +119,8 @@ public class Projectile_Network : NetworkBehaviour
     }
 
     [Server]
-    public void server_destroy()
+    public void server_destroy(bool collided)
     {
-        player_owner.rpc_destroy_projectile(gameObject);
+        player_owner.rpc_destroy_projectile(gameObject, collided);
     }
 }

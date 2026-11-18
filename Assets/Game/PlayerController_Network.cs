@@ -6,13 +6,19 @@ using System.Collections.Generic;
 
 public class PlayerController_Network : NetworkBehaviour
 {
+    public ParticleSystem death_vfx;
     public GameObject enemy_lives_hud;
     public TextMeshProUGUI lives_text_enemy;
     public GameObject projectile_prefab;
+    public Transform muzzle_point;
     public int max_lives;
     public float friction;
     public float acceleration;
     public float fire_time;
+
+    [Header("ART")]
+    public GameObject[] player_art;
+    public TrailRenderer[] trail_renderer;
 
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(on_life_changed))] public int lives;
@@ -261,7 +267,7 @@ public class PlayerController_Network : NetworkBehaviour
         else
         {
             current_powerup = powerup;
-            powerup_t = 2f;
+            powerup_t = 7.5f;
         }
     }
 
@@ -298,7 +304,17 @@ public class PlayerController_Network : NetworkBehaviour
 
     public void on_connection_id_changed(int old_value, int new_value)
     {
-        
+        for (int i = 0; i < player_art.Length; i++)
+        {
+            if (i == connection_id)
+            {
+                player_art[i].SetActive(true);
+            }
+            else
+            {
+                player_art[i].SetActive(false);
+            }
+        }
     }
 
 
@@ -309,12 +325,14 @@ public class PlayerController_Network : NetworkBehaviour
     {
         Projectile_Network projectile = spawn_projectile().GetComponent<Projectile_Network>();
         projectile.init(position, rotation);
+
+        GI.game_mode.muzzle_vfx.spawn(muzzle_point.position, transform);
     }
 
     [ClientRpc]
-    public void rpc_destroy_projectile(GameObject go)
+    public void rpc_destroy_projectile(GameObject go, bool collided)
     {
-        go.GetComponent<Projectile_Network>().destroy();
+        go.GetComponent<Projectile_Network>().destroy(collided);
     }
 
     [ClientRpc]
@@ -322,8 +340,19 @@ public class PlayerController_Network : NetworkBehaviour
     {
         lives = max_lives;
         transform.position = position;
+        player_art[connection_id].SetActive(true);
+        if (!isLocalPlayer)
+        {
+            enemy_lives_hud.SetActive(true);
+        }
+
         set_start_rotation();
         update_enemy_lives();
+
+        for (int i = 0; i < trail_renderer.Length; i++)
+        {
+            trail_renderer[i].Clear();
+        }
 
         if (isLocalPlayer)
         {
@@ -370,6 +399,13 @@ public class PlayerController_Network : NetworkBehaviour
         dp = Vector3.zero;
         move_direction = Vector3.zero;
 
+        if (connection_id != player_winner)
+        {
+            player_art[connection_id].SetActive(false);
+            death_vfx.Play();
+            enemy_lives_hud.SetActive(false);
+        }
+
         if (isLocalPlayer) 
         {
             resume_local_game();
@@ -385,13 +421,13 @@ public class PlayerController_Network : NetworkBehaviour
         {
             if (current_powerup == Powerup_Type.MULTISHOT)
             {
-                rpc_spawn_projectile(transform.position, transform.rotation*Quaternion.Euler(0f, 30f, 0f));
-                rpc_spawn_projectile(transform.position, transform.rotation);
-                rpc_spawn_projectile(transform.position, transform.rotation*Quaternion.Euler(0f, -30f, 0f));
+                rpc_spawn_projectile(muzzle_point.position, transform.rotation*Quaternion.Euler(0f, 30f, 0f));
+                rpc_spawn_projectile(muzzle_point.position, transform.rotation);
+                rpc_spawn_projectile(muzzle_point.position, transform.rotation*Quaternion.Euler(0f, -30f, 0f));
             }
             else
             {
-                rpc_spawn_projectile(transform.position, transform.rotation);
+                rpc_spawn_projectile(muzzle_point.position, transform.rotation);
             }
 
             

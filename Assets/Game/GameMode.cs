@@ -6,8 +6,10 @@ using System.Collections.Generic;
 public class GameMode : NetworkBehaviour
 {
     public GameObject powerup_prefab;
-    public Transform[] projectiles_parent;
+    public LocalPoolingSystem hit_vfx;
+    public LocalPoolingSystem muzzle_vfx;
     public Vector3 screen_bounds;
+    public Transform[] projectiles_parent;
 
     [Header("INTERNAL")]
     public float start_match_t;
