@@ -12,6 +12,7 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI lives_text;
     public TextMeshProUGUI win_text;
     public TextMeshProUGUI countdown_text;
+    public TextMeshProUGUI player_wins_text;
 
     [Header("Relay")]
     public GameObject relay_panel;
@@ -21,6 +22,8 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI copy_join_code_text;
 
     [Header("INTERNAL")]
+    public int player_1_wins;
+    public int player_2_wins;
     public float go_message_t;
     public float start_game_t;
 
@@ -73,6 +76,14 @@ public class PlayerHUD : MonoBehaviour
 
 
     // ===================== GAME =====================
+
+    public void update_wins(int player)
+    {
+        if (player == 0) { player_1_wins++; }
+        else             { player_2_wins++; }
+
+        player_wins_text.text = "Player 1 wins: " + player_1_wins + "\n\nPlayer 2 wins: " + player_2_wins;
+    }
 
     public void update_lives()
     {

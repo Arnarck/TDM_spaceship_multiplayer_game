@@ -345,7 +345,11 @@ public class PlayerController_Network : NetworkBehaviour
         dp = Vector3.zero;
         move_direction = Vector3.zero;
 
-        if (isLocalPlayer) GI.local_player_hud.show_win_message(player_winner);
+        if (isLocalPlayer) 
+        { 
+            GI.local_player_hud.update_wins(player_winner);
+            GI.local_player_hud.show_win_message(player_winner);
+        }
     }
 
     [Command]
