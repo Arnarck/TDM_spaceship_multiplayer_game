@@ -1,13 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System;
-using Utp;
 using TMPro;
-using Unity.Services.Core;
-using Unity.Services.Authentication;
+using Mirror;
 
 public class PlayerHUD : MonoBehaviour
 {
+    public GameObject pause_ui;
     public GameObject hud_panel;
     public TextMeshProUGUI lives_text;
     public TextMeshProUGUI win_text;
@@ -76,6 +73,26 @@ public class PlayerHUD : MonoBehaviour
 
 
     // ===================== GAME =====================
+
+    public void show_pause()
+    {
+        pause_ui.SetActive(true);
+    }
+
+    public void hide_pause()
+    {
+        pause_ui.SetActive(false);
+    }
+
+    public void resume()
+    {
+        GI.local_player.resume_local_game();
+    }
+
+    public void quit()
+    {
+        NetworkClient.Disconnect();
+    }
 
     public void update_wins(int player)
     {

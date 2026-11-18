@@ -18,6 +18,7 @@ public class PlayerController_Network : NetworkBehaviour
     [SyncVar(hook = nameof(on_life_changed))] public int lives;
     [SyncVar(hook = nameof(on_connection_id_changed))] public int connection_id = -1;
     public bool freeze_player;
+    public bool local_game_stopped;
     public float fire_t;
     public float powerup_t;
     public Powerup_Type current_powerup;
@@ -28,12 +29,8 @@ public class PlayerController_Network : NetworkBehaviour
     public List<GameObject> free_projectiles;
     public List<GameObject> living_projectiles;
 
-    // Clamp position w/ screen bounds
-    // pause (resume/quit)
-    // show player wins number
     // add art
     // add sfx and music
-    // fix lives HUD bug
 
     private void Awake()
     {
@@ -83,6 +80,22 @@ public class PlayerController_Network : NetworkBehaviour
         }
 
         if (freeze_player) { return; }
+
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (local_game_stopped)
+                {
+                    resume_local_game();
+                }
+                else
+                {
+                    stop_local_game();
+                }
+            }
+        }
+
+        if (local_game_stopped) { return; }
         
         { // Movement
             ddp = Vector3.zero;
@@ -223,6 +236,18 @@ public class PlayerController_Network : NetworkBehaviour
         free_projectiles.Add(go);
     }
 
+    public void stop_local_game()
+    {
+        local_game_stopped = true;
+        GI.local_player_hud.show_pause();
+    }
+
+    public void resume_local_game()
+    {
+        local_game_stopped = false;
+        GI.local_player_hud.hide_pause();
+    }
+
 
     // ================================= Server Calls =================================
 
@@ -346,7 +371,8 @@ public class PlayerController_Network : NetworkBehaviour
         move_direction = Vector3.zero;
 
         if (isLocalPlayer) 
-        { 
+        {
+            resume_local_game();
             GI.local_player_hud.update_wins(player_winner);
             GI.local_player_hud.show_win_message(player_winner);
         }
