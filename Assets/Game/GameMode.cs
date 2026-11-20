@@ -67,6 +67,7 @@ public class GameMode : NetworkBehaviour
                         GameObject go = Instantiate(player.projectile_prefab);
                         go.GetComponent<Projectile_Network>().connection_id = player.connectionToClient.connectionId;
 
+                        // Spawn the projectile across the Network
                         NetworkServer.Spawn(go, player.connectionToClient);
                     }
                 }

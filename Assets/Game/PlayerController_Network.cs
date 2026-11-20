@@ -359,6 +359,7 @@ public class PlayerController_Network : NetworkBehaviour
         {
             GI.local_player_hud.hide_win_message();
             GI.local_player_hud.show_next_match_countdown();
+            GI.local_player_hud.update_lives();
         }
     }
 
